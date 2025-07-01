@@ -59,10 +59,9 @@ class UserManager(BaseUserManager):
 
 # Custom User model (inherits from AbstractUser)
 class Utilisateur(AbstractBaseUser, PermissionsMixin):
-
     ROLE_CHOICES = [
         ('AGRICULTEUR', 'AGRICULTEUR'),
-        ('ARCHETEUR', 'ARCHETEUR')
+        ("ACHETEUR", "ACHETEUR"), 
     ]
     username = models.CharField(max_length=510)
     email = models.EmailField(max_length=255, unique=True)

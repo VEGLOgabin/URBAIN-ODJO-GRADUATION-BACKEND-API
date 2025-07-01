@@ -127,7 +127,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = "api.Utilisateur"
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -161,14 +166,12 @@ DJOSER = {
     }
 }
 
-AUTH_USER_MODEL = 'api.Utilisateur'
 
 # CORS_ALLOWED_ORIGINS = [
 #     "http://localhost:8080",  # Frontend base route
 # ]
 
 
-CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ALLOW_CREDENTIALS = True
 
 
@@ -185,5 +188,4 @@ SWAGGER_SETTINGS = {
 }
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+

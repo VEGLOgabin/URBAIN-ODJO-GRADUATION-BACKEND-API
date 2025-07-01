@@ -2,7 +2,6 @@ from rest_framework import serializers
 from .models import Utilisateur, Produit, Commande, CommandeProduit, Paiement, Messagerie, Avis
 
 
-
 # Base Serializer for Utilisateur (used for create/update)
 class UtilisateurCreateUpdateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)  # Make password write-only
