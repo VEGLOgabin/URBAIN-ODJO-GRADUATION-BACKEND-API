@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from .models import Utilisateur, Produit, Commande, CommandeProduit, Paiement, Messagerie, Avis
 from .serializers import (
     UtilisateurCreateUpdateSerializer, UtilisateurListSerializer,
@@ -10,9 +10,16 @@ from .serializers import (
     AvisCreateUpdateSerializer, AvisListSerializer
 )
 
+
+
 # Utilisateur ViewSet
 class UtilisateurViewSet(viewsets.ModelViewSet):
     queryset = Utilisateur.objects.all()
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated()]  
 
     def get_serializer_class(self):
         if self.action == 'list' or self.action == 'retrieve':
@@ -23,6 +30,11 @@ class UtilisateurViewSet(viewsets.ModelViewSet):
 # Produit ViewSet
 class ProduitViewSet(viewsets.ModelViewSet):
     queryset = Produit.objects.all()
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated()]  
+    
 
     def get_serializer_class(self):
         if self.action == 'list' or self.action == 'retrieve':
@@ -68,6 +80,11 @@ class MessagerieViewSet(viewsets.ModelViewSet):
 # Avis ViewSet
 class AvisViewSet(viewsets.ModelViewSet):
     queryset = Avis.objects.all()
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated()]  
 
     def get_serializer_class(self):
         if self.action == 'list' or self.action == 'retrieve':
