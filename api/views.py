@@ -1,5 +1,11 @@
 from rest_framework import viewsets, permissions
 from .models import Utilisateur, Produit, Commande, CommandeProduit, Paiement, Messagerie, Avis
+
+from rest_framework.parsers import MultiPartParser,FormParser,JSONParser,FileUploadParser
+from rest_framework import viewsets,mixins
+from rest_framework.permissions import IsAdminUser,IsAuthenticated
+
+
 from .serializers import (
     UtilisateurCreateUpdateSerializer, UtilisateurListSerializer,
     ProduitCreateUpdateSerializer, ProduitListSerializer,
@@ -33,7 +39,14 @@ class ProduitViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             return [permissions.AllowAny()]
-        return [permissions.IsAuthenticated()]  
+        return [permissions.IsAuthenticated()] 
+
+    def get_parser_classes(self):
+        if self.action in ("create", "update", "partial_update"):
+            return [MultiPartParser, FormParser,
+                    FileUploadParser, JSONParser]
+        # fall back to DRF’s default parsers (or your global DEFAULT_PARSER_CLASSES)
+        return super().get_parser_classes() 
     
 
     def get_serializer_class(self):

@@ -77,7 +77,7 @@ class Utilisateur(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', "telephone", "adresse"]
+    REQUIRED_FIELDS = ['username', "role", "telephone", "adresse"]
 
     def get_full_name(self):
         return f"{self.username}"
@@ -98,7 +98,7 @@ class Produit(models.Model):
     prix = models.FloatField()
     quantite_disponible = models.IntegerField()
     categorie = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='produits/', blank=True, null=True)
+    image = models.ImageField(upload_to='produits/', blank=False, null=False)
     date_ajout = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
