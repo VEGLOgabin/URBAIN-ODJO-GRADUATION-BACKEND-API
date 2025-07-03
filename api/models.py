@@ -98,7 +98,7 @@ class Produit(models.Model):
     prix = models.FloatField()
     quantite_disponible = models.IntegerField()
     categorie = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='produits/', blank=False, null=False)
+    image = models.ImageField(upload_to='produits/')
     date_ajout = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
