@@ -43,8 +43,7 @@ class ProduitViewSet(viewsets.ModelViewSet):
 
     def get_parser_classes(self):
         if self.action in ("create", "update", "partial_update"):
-            return [MultiPartParser, FormParser,
-                    FileUploadParser, JSONParser]
+            return [MultiPartParser, FormParser, FileUploadParser,JSONParser]
         # fall back to DRF’s default parsers (or your global DEFAULT_PARSER_CLASSES)
         return super().get_parser_classes() 
     
