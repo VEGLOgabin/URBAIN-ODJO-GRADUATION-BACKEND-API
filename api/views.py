@@ -3,18 +3,9 @@ from .models import Utilisateur, Produit, Commande, CommandeProduit, Paiement, M
 
 from rest_framework.parsers import MultiPartParser,FormParser,JSONParser,FileUploadParser
 from rest_framework import viewsets,mixins
-from rest_framework.permissions import IsAdminUser,IsAuthenticated
 
 
-from .serializers import (
-    UtilisateurCreateUpdateSerializer, UtilisateurListSerializer,
-    ProduitCreateUpdateSerializer, ProduitListSerializer,
-    CommandeCreateUpdateSerializer, CommandeListSerializer,
-    CommandeProduitCreateUpdateSerializer, CommandeProduitListSerializer,
-    PaiementCreateUpdateSerializer, PaiementListSerializer,
-    MessagerieCreateUpdateSerializer, MessagerieListSerializer,
-    AvisCreateUpdateSerializer, AvisListSerializer
-)
+from .serializers import *
 
 
 
@@ -34,22 +25,23 @@ class UtilisateurViewSet(viewsets.ModelViewSet):
 
 
 # Produit ViewSet
-class ProduitViewSet(viewsets.ModelViewSet):
+class ProduitViewSetListRetrieve(mixins.ListModelMixin,mixins.RetrieveModelMixin,viewsets.GenericViewSet):
+    serializer_class= ProduitListSerializer
     queryset = Produit.objects.all()
-    def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
-            return [permissions.AllowAny()]
-        return [permissions.IsAuthenticated()] 
+    permission_classes=[permissions.AllowAny()]
 
-    def get_parser_classes(self):
-        if self.action in ("create", "update", "partial_update"):
-            return [MultiPartParser, FileUploadParser]
-        return super().get_parser_classes()
 
-    def get_serializer_class(self):
-        if self.action == 'list' or self.action == 'retrieve':
-            return ProduitListSerializer
-        return ProduitCreateUpdateSerializer
+    
+class ProductCreateUpdate(mixins.CreateModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,viewsets.GenericViewSet):
+    serializer_class=ProduitCreateUpdateSerializer
+    queryset=Produit.objects.all()
+    permission_classes=[permissions.IsAuthenticated]
+    parser_classes = (MultiPartParser, FormParser,FileUploadParser)
+
+    def perform_create(self, serializer):
+        user=self.request.user
+        serializer.save(agriculteur=user)
+        return user
 
 # Commande ViewSet
 class CommandeViewSet(viewsets.ModelViewSet):

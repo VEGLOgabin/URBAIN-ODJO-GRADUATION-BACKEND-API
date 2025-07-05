@@ -22,7 +22,7 @@ class UtilisateurListSerializer(serializers.ModelSerializer):
 class ProduitCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Produit
-        fields = '__all__'
+        fields = ["nom", "description", "prix", "quantite_disponible", "categorie", "image"]
 
 # List Serializer for Produit (used for listing)
 class ProduitListSerializer(serializers.ModelSerializer):
